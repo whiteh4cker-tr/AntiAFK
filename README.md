@@ -14,7 +14,7 @@
 ![alt text](https://i.imgur.com/4bQM2zl.gif)
 
 ## Command - Description - Permission
-**/antiafk reload** - Reload the Plugin - **antiafk.reload**
+**/antiafk reload** - Reload the Plugin - **antiafk.admin**
 
 ## Permissions
 antiafk.bypass - Bypasses the AFK Checks
