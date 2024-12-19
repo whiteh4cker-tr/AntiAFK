@@ -1,0 +1,22 @@
+name: AntiAFK
+version: '1.0'
+main: tr.alperendemir.antiAFK.AntiAFK
+api-version: '1.21'
+# Plugin description
+description: A plugin to detect and prevent AFK players, water loops, and auto-clickers.
+permissions:
+  antiafk.bypass:
+    description: Allows players to bypass AFK checks.
+    default: op
+  antiafk.admin:
+    description: Allows access to administrative commands for the AntiAFK plugin.
+    default: op
+# Commands
+commands:
+  antiafk:
+    description: Administrative commands for the AntiAFK plugin.
+    usage: /antiafk <reload>
+    permission: antiafk.admin
+    permission-message: "&cYou do not have permission to use this command."
+# Load order
+load: POSTWORLD
