@@ -36,5 +36,5 @@ water-loop-time-threshold: 300 # 5 minutes
 
 ## Requirements
 
--   Java 17 or higher
+-   Java 21 or higher
 -   Spigot/Paper/forks MC v1.21.4
