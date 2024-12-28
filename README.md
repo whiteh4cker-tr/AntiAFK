@@ -1,6 +1,9 @@
 # AntiAFK
  This plugin detects water circles, jump AFK, and more.
 
+![GitHub License](https://img.shields.io/github/license/whiteh4cker-tr/AntiAFK?style=flat)
+[![CodeFactor](https://www.codefactor.io/repository/github/whiteh4cker-tr/antiafk/badge)](https://www.codefactor.io/repository/github/whiteh4cker-tr/antiafk)
+
 ## Features
 
 -   Water loop detection
