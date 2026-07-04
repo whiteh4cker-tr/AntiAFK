@@ -1,7 +1,7 @@
 name: AntiAFK
-version: '1.0'
+version: '${version}'
 main: tr.alperendemir.antiAFK.AntiAFK
-api-version: '1.21'
+api-version: '26.2'
 # Plugin description
 description: A plugin to detect and prevent AFK players, water loops, and auto-clickers.
 permissions:
