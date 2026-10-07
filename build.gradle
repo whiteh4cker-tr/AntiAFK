@@ -3,7 +3,29 @@ plugins {
 }
 
 group = 'tr.alperendemir'
-version = '1.0.1'
+
+// Version: the base lives in gradle.properties (versionBase). Alpha/dev builds (-Palpha, which is
+// what CI publishes to Modrinth as an alpha) append the short git SHA, e.g. 1.0.1-b1d49ff, so a dev
+// jar can be traced to the exact commit it came from. plugin.yml gets the same string via
+// processResources below, so /version AntiAFK reports it on a live server.
+// The SHA is resolved at configuration time; with Gradle's configuration cache enabled locally a
+// cache hit could reuse a stale SHA. CI never enables it, so published versions are always correct.
+def versionBase = providers.gradleProperty('versionBase').getOrElse('0.0.0')
+def resolveShortSha = {
+    def override = providers.gradleProperty('versionSha').getOrNull()
+    if (override) {
+        return override.trim()
+    }
+    try {
+        def proc = ['git', 'rev-parse', '--short', 'HEAD'].execute()
+        proc.waitFor()
+        return proc.exitValue() == 0 ? proc.text.trim() : ''
+    } catch (Exception ignored) {
+        return '' // e.g. building from a source archive with no git checkout
+    }
+}
+def alphaSha = project.hasProperty('alpha') ? resolveShortSha() : ''
+version = alphaSha ? "${versionBase}-${alphaSha}" : versionBase
 
 repositories {
     mavenCentral()
@@ -18,7 +40,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:26.2-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:26.3-R0.1-SNAPSHOT")
 }
 
 def targetJavaVersion = 25
@@ -36,6 +58,15 @@ tasks.withType(JavaCompile).configureEach {
 
     if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
         options.release.set(targetJavaVersion)
+    }
+}
+
+// Lets CI read the resolved version: ./gradlew build printVersion -Palpha=true
+def resolvedVersion = version.toString()
+tasks.register('printVersion') {
+    description = 'Prints the resolved project version as VERSION=<version>.'
+    doLast {
+        println "VERSION=$resolvedVersion"
     }
 }
 
